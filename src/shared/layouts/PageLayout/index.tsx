@@ -6,7 +6,7 @@ interface IProps {
 
 export default function PageLayout({ children }: IProps) {
   return (
-    <Box height="100%" bgcolor="red" component="main">
+    <Box height="100%" component="main">
       {children}
     </Box>
   );
