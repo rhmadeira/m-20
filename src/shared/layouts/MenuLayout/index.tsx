@@ -9,7 +9,8 @@ export default function DefaultLayout() {
       height="100vh"
       display="flex"
       flexDirection="column"
-      bgcolor={theme.palette.secondary.light}
+      bgcolor={theme.palette.background.default}
+      boxSizing="border-box"
     >
       <Bar />
       <Box height="100vh">

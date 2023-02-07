@@ -5,6 +5,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
+import { useDrawerContext } from "../../../../context/ContextDrawer";
 
 interface IOptionsDrawerProps {
   icon: React.ReactNode;
@@ -15,6 +16,7 @@ interface IOptionsDrawerProps {
 
 export function OptionsLink({ to, icon, label, onClick }: IOptionsDrawerProps) {
   const navigate = useNavigate();
+  const { toggleDrawerOpen } = useDrawerContext();
 
   const resolverPath = useResolvedPath(to);
   const match = useMatch({ path: resolverPath.pathname, end: false });
@@ -22,6 +24,7 @@ export function OptionsLink({ to, icon, label, onClick }: IOptionsDrawerProps) {
   const handleClick = () => {
     onClick?.();
     navigate(to);
+    toggleDrawerOpen();
   };
   return (
     <ListItemButton selected={!!match} onClick={handleClick}>

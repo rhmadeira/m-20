@@ -7,6 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "./SideBar";
 import { useDrawerContext } from "../../context/ContextDrawer";
+import Logo from "../../../assets/millenium.svg";
+import Icon from "@mui/material/Icon";
 
 export default function Bar() {
   const { toggleDrawerOpen } = useDrawerContext();
@@ -14,20 +16,30 @@ export default function Bar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" elevation={1}>
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-            onClick={toggleDrawerOpen}
+          <Box
+            display="flex"
+            width="1200px"
+            margin="0 auto"
+            alignItems="center"
+            justifyContent="space-between"
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Millenium
-          </Typography>
-          <Button color="inherit">Login</Button>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+              onClick={toggleDrawerOpen}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Box sx={{ flexGrow: 1 }}>
+              <img src={Logo} width={128} alt="" />
+            </Box>
+            <IconButton>
+              <Icon>logout</Icon>
+            </IconButton>
+          </Box>
         </Toolbar>
       </AppBar>
       <Sidebar />
