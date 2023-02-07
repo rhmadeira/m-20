@@ -26,7 +26,7 @@ export function OptionsLink({ to, icon, label, onClick }: IOptionsDrawerProps) {
   return (
     <ListItemButton selected={!!match} onClick={handleClick}>
       <ListItemIcon>
-        <Icon>{icon}</Icon>
+        <Icon color="primary">{icon}</Icon>
       </ListItemIcon>
       <ListItemText primary={label} />
     </ListItemButton>

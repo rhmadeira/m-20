@@ -5,20 +5,20 @@ export const Ligth = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: grey[700],
+      main: "#ffffff",
       dark: grey[800],
       light: grey[600],
-      contrastText: "#ffffff",
+      contrastText: grey[900],
     },
     secondary: {
       main: grey[800],
       dark: grey[800],
-      light: grey[800],
+      light: grey[300],
       contrastText: "#ffffff",
     },
     background: {
-      default: "red",
-      paper: "red",
+      default: grey[200],
+      paper: grey[100],
     },
   },
 });

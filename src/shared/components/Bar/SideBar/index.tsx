@@ -15,7 +15,6 @@ interface IProps {
 export default function Sidebar({ isOpenSideBar, setIsOpenSidebar }: IProps) {
   const theme = useTheme();
   const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
-  console.log("isDrawerOpen", isDrawerOpen);
 
   return (
     <div>
@@ -26,6 +25,8 @@ export default function Sidebar({ isOpenSideBar, setIsOpenSidebar }: IProps) {
             height="100%"
             display="flex"
             flexDirection="column"
+            bgcolor={theme.palette.primary.dark}
+            color={theme.palette.secondary.contrastText}
           >
             <Box flex={1}>
               <OptionsLink label="Parceiros" icon="person" to="parceiros" />

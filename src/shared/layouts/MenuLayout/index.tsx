@@ -5,9 +5,14 @@ import Bar from "../../components/Bar";
 export default function DefaultLayout() {
   const theme = useTheme();
   return (
-    <Box height="100vh" display="flex" flexDirection="column">
+    <Box
+      height="100vh"
+      display="flex"
+      flexDirection="column"
+      bgcolor={theme.palette.secondary.light}
+    >
       <Bar />
-      <Box height="100vh" bgcolor={theme.palette.background.paper}>
+      <Box height="100vh">
         <Outlet />
       </Box>
     </Box>
