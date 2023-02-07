@@ -1,7 +1,6 @@
-import { Box, Paper, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { ListingTool } from "../../../shared/components/ListingTool";
 import PageLayout from "../../../shared/layouts/PageLayout";
-import TableColapse from "./TableColapse";
 import TablePartners from "./TablePartners";
 
 export default function Partners() {
@@ -10,8 +9,8 @@ export default function Partners() {
     <PageLayout>
       <Box display="flex" flexDirection="column" gap={2} padding={3}>
         <ListingTool textBottomAdd="Adicionar parceiro" showSearch />
-        <Box component={Paper} padding={3}>
-          <TableColapse />
+        <Box>
+          <TablePartners />
         </Box>
       </Box>
     </PageLayout>

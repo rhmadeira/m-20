@@ -14,7 +14,7 @@ export default function Bar() {
   const { toggleDrawerOpen } = useDrawerContext();
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" elevation={1}>
+      <AppBar position="fixed" elevation={1}>
         <Toolbar>
           <Box
             display="flex"
