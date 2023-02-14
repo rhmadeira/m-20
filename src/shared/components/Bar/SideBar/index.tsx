@@ -17,13 +17,14 @@ interface IProps {
 export default function Sidebar({ isOpenSideBar, setIsOpenSidebar }: IProps) {
   const theme = useTheme();
   const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
+  const admin = true;
 
   return (
     <div>
       <React.Fragment>
         <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawerOpen}>
           <Box
-            width={theme.spacing(24)}
+            width={theme.spacing(35)}
             height="100%"
             display="flex"
             flexDirection="column"
@@ -32,26 +33,39 @@ export default function Sidebar({ isOpenSideBar, setIsOpenSidebar }: IProps) {
           >
             <Box display="flex" flexDirection="column" flex={1}>
               <Box marginLeft={2} marginTop={6}>
-                <Typography variant="h6">Cadastros</Typography>
+                <Typography variant="body1">
+                  CONSULTA{" "}
+                  <Typography display={admin ? "inline" : "none"}>
+                    {" "}
+                    / CADASTRO
+                  </Typography>
+                </Typography>
               </Box>
               <Box>
                 <OptionsLink
-                  label="Parceiros"
+                  label="Parceiros | Processos"
                   icon="people"
-                  to="cadastro/parceiros"
+                  to="parceiros"
                 />
-                <OptionsLink
-                  label="Vans"
-                  icon="assignment"
-                  to="cadastro/vans"
-                />
-                <OptionsLink
-                  label="Processos"
-                  icon="account_tree"
-                  to="cadastro/processos"
-                />
+                <OptionsLink label="Vans" icon="assignment" to="vans" />
               </Box>
               <Divider />
+
+              <Box marginLeft={2} marginTop={2}>
+                <Typography variant="body1">CONFIGURAÇÕES:</Typography>
+              </Box>
+              <Box>
+                <OptionsLink
+                  label="Quant. Max. Produtos"
+                  icon="inventory"
+                  to="/manutencao"
+                />
+                <OptionsLink
+                  label="Prazo fixo por Clientes"
+                  icon="pending_actions"
+                  to="/manutencao"
+                />
+              </Box>
             </Box>
           </Box>
         </Drawer>

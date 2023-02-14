@@ -16,15 +16,18 @@ export const globalStyles = (
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
       }
-      body::-webkit-scrollbar {
-        width: 4px;
+      *::-webkit-scrollbar {
+        width: 1px;
       }
-      body::-webkit-scrollbar-track {
-        background: #03263a;
+      *::-webkit-scrollbar-track {
+        background: #d7d9da;
       }
-      body::-webkit-scrollbar-thumb {
-        background-color: var(--blue400);
+      *::-webkit-scrollbar-thumb {
+        background-color: #006c5b;
         border-radius: 20px;
+      }
+      * {
+        box-sizing: border-box;
       }
 
       :root {
@@ -49,6 +52,19 @@ export const globalStyles = (
       @keyframes loading {
         to {
           transform: rotate(1turn);
+        }
+      }
+
+      .animeLeft {
+        opacity: 0;
+        transform: translateX(-20px);
+        animation: animeLeft 0.3s forwards;
+      }
+
+      @keyframes animeLeft {
+        to {
+          opacity: 1;
+          transform: initial;
         }
       }
     `}

@@ -9,6 +9,11 @@ import Sidebar from "./SideBar";
 import { useDrawerContext } from "../../context/ContextDrawer";
 import Logo from "../../../assets/millenium.svg";
 import Icon from "@mui/material/Icon";
+import { Link } from "react-router-dom";
+
+function handleLogout() {
+  console.log("logout");
+}
 
 export default function Bar() {
   const { toggleDrawerOpen } = useDrawerContext();
@@ -23,20 +28,22 @@ export default function Bar() {
             alignItems="center"
             justifyContent="space-between"
           >
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-              onClick={toggleDrawerOpen}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Box sx={{ flexGrow: 1 }}>
-              <img src={Logo} width={128} alt="" />
+            <Box display="flex" alignItems="center">
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={toggleDrawerOpen}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Box component={Link} to="/">
+                <img src={Logo} width={128} alt="" />
+              </Box>
             </Box>
-            <IconButton>
+            <IconButton onClick={handleLogout}>
               <Icon>logout</Icon>
             </IconButton>
           </Box>
