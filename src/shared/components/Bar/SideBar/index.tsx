@@ -35,10 +35,10 @@ export default function Sidebar({ isOpenSideBar, setIsOpenSidebar }: IProps) {
               <Box marginLeft={2} marginTop={6}>
                 <Typography variant="body1">
                   CONSULTA{" "}
-                  <Typography display={admin ? "inline" : "none"}>
+                  <span style={{ display: admin ? "inline" : "none" }}>
                     {" "}
                     / CADASTRO
-                  </Typography>
+                  </span>
                 </Typography>
               </Box>
               <Box>
@@ -47,7 +47,7 @@ export default function Sidebar({ isOpenSideBar, setIsOpenSidebar }: IProps) {
                   icon="people"
                   to="parceiros"
                 />
-                <OptionsLink label="Vans" icon="assignment" to="vans" />
+                <OptionsLink label="Van" icon="assignment" to="van" />
               </Box>
               <Divider />
 

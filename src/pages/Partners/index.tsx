@@ -19,7 +19,7 @@ export default function Partners() {
     console.log("deletando");
   };
   const handleRefresh = () => {
-    navigate("/parceiros");
+    window.location.reload();
   };
   const handleGenerateSpreadsheet = () => {
     console.log("gerando planilha");
@@ -30,7 +30,7 @@ export default function Partners() {
 
   return (
     <Box className="animeLeft" display="flex" flexDirection="column" gap={2}>
-      <Typography variant="h4">Parceiros</Typography>
+      <Typography variant="h5">Parceiros</Typography>
       <ListingTool
         handleButtonNew={handleNewPartner}
         handleButtonRefresh={handleRefresh}

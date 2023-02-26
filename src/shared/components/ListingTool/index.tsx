@@ -24,6 +24,7 @@ interface IListingToolProps {
 export function ListingTool({
   textSearch = "",
   textBottomAdd = "Buscar",
+  showBottom = true,
   handleButtonNew,
   handleButtonRefresh,
   handleButtonGenerateSpreadsheet,
@@ -42,16 +43,18 @@ export function ListingTool({
       height={theme.spacing(7)}
     >
       <Box display="flex" gap={1}>
-        <Button
-          size={mdDown ? "small" : "medium"}
-          variant="outlined"
-          color="secondary"
-          disableElevation
-          onClick={handleButtonNew}
-          endIcon={<Icon>add</Icon>}
-        >
-          {textBottomAdd}
-        </Button>
+        {showBottom && (
+          <Button
+            size={mdDown ? "small" : "medium"}
+            variant="outlined"
+            color="secondary"
+            disableElevation
+            onClick={handleButtonNew}
+            endIcon={<Icon>add</Icon>}
+          >
+            {textBottomAdd}
+          </Button>
+        )}
         <Button
           size={mdDown ? "small" : "medium"}
           variant="outlined"

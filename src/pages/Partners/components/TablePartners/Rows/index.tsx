@@ -9,31 +9,53 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
+import AlertDialog from "../../../../../shared/components/AlertDialog";
+import AlertController from "../../../../../shared/components/AlertDialog";
+import { api } from "../../../../../shared/services/axios";
+import { useDeletePartner } from "../../../../../shared/services/hooks/usePartner";
+import { deletePartnerId } from "../../../../../shared/services/partners";
 import InfoProcess from "../InfoProcess";
 
 interface LinhaProps {
   row: {
     id: number;
-    name: string;
-    cpfCnpj: number;
+    nome: string;
+    cnpj: string;
+    razaoSocial: string;
     email: string;
-    telefone: number;
+    telefone: string;
   };
 }
 
 export function Rows({ row }: LinhaProps) {
   const [open, setOpen] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
+  const client = useQueryClient();
+  const { mutate } = useDeletePartner();
+
+  function handleClickDelete() {
+    setAlertOpen(true);
+  }
+
+  function handleDelete(id: number) {
+    mutate(id, {
+      onSuccess: () => {
+        client.invalidateQueries("partner");
+      },
+    });
+  }
+  function confirmationDelete() {
+    handleDelete(row.id);
+    setAlertOpen(false);
+  }
 
   function handleDoubleClick() {
     console.log("double click");
   }
-
-  useEffect(() => {
-    (async function handleGetInfoProcess() {
-      if (open) console.log("load");
-    })();
-  }, [open]);
 
   return (
     <>
@@ -64,11 +86,11 @@ export function Rows({ row }: LinhaProps) {
             overflow="hidden"
             textOverflow="ellipsis"
           >
-            {row.name}
+            {row.nome}
           </Box>
         </TableCell>
         <TableCell padding="checkbox" onDoubleClick={() => setOpen(!open)}>
-          {row.cpfCnpj}
+          {row.cnpj}
         </TableCell>
         <TableCell padding="checkbox" onDoubleClick={() => setOpen(!open)}>
           {row.email}
@@ -91,12 +113,19 @@ export function Rows({ row }: LinhaProps) {
                 <Icon>keyboard_arrow_down</Icon>
               )}
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => navigate(`/parceiros/${row.id}`)}>
               <Icon fontSize="small">edit</Icon>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={handleClickDelete}>
               <Icon fontSize="small">delete_icon</Icon>
             </IconButton>
+            {alertOpen && (
+              <AlertDialog
+                alertOpen={alertOpen}
+                setAlertOpen={setAlertOpen}
+                confirmationDelete={confirmationDelete}
+              />
+            )}
           </Box>
         </TableCell>
       </TableRow>

@@ -3,15 +3,18 @@ import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import { Icon, useMediaQuery, useTheme } from "@mui/material";
-
-function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-  event.preventDefault();
-  console.info("You clicked a breadcrumb.");
-}
+import { useNavigate } from "react-router-dom";
 
 export default function LastNavigate() {
   const theme = useTheme();
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
+
+  function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    event.preventDefault();
+    navigate("/");
+  }
+
   return (
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs translate="yes" aria-label="breadcrumb">
@@ -25,7 +28,7 @@ export default function LastNavigate() {
           <Icon sx={{ mr: 0.5 }} fontSize="inherit">
             home
           </Icon>
-          Home
+          Menu rápido
         </Link>
       </Breadcrumbs>
     </div>

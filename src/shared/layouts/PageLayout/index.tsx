@@ -9,7 +9,7 @@ export default function PageLayout() {
   return (
     <Box
       height="100%"
-      maxWidth="1200px"
+      // maxWidth="1200px"
       margin="0 auto"
       component="main"
       bgcolor={theme.palette.secondary.light}
@@ -28,7 +28,12 @@ export default function PageLayout() {
             <LastNavigate />
           </Box>
         </Box>
-        <Box overflow="auto" flex="1" height="100%" padding={2}>
+        <Box
+          overflow="auto"
+          flex="1"
+          height="100%"
+          padding={smDown ? "10px" : "10px 20px"}
+        >
           <Outlet />
         </Box>
       </Box>

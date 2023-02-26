@@ -1,3 +1,139 @@
 {
-  "parceiros": [{ "id": "1" }]
+  "parceiros": [
+    {
+      "id": 115,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 116,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 117,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 118,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 119,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 120,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 121,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 122,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 123,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 124,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 125,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 126,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 127,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 128,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    },
+    {
+      "id": 129,
+      "tipoPessoa": 1,
+      "nome": "John Doe",
+      "razaoSocial": "John Doe",
+      "cnpj": "1231525234234",
+      "email": "asdhuh@usah",
+      "telefone": "123123123"
+    }
+  ]
 }

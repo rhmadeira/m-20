@@ -9,83 +9,13 @@ import {
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import { useState } from "react";
+import { useGetPartner } from "../../../../shared/services/hooks/usePartner";
 import { Rows } from "./Rows";
-const rows = [
-  {
-    id: 111,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 222,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 333,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 444,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 555,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 666,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 777,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 888,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 999,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-  {
-    id: 10,
-    name: "John Doe",
-    cpfCnpj: 1231525234234,
-    email: "asdhuh@usah",
-    telefone: 123123123,
-  },
-];
 
 export default function TablePartners() {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(15);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { data, isLoading } = useGetPartner();
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -106,15 +36,15 @@ export default function TablePartners() {
             <TableRow>
               <TableCell width="5%">Id</TableCell>
               <TableCell width="30%">Razão Social</TableCell>
-              <TableCell width="15%">Cpf / Cnpj</TableCell>
+              <TableCell width="15%">CNPJ</TableCell>
               <TableCell width="20%">email</TableCell>
               <TableCell width="15%">telefone</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {data?.value
+              // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <Rows key={row.id} row={row} />
               ))}
@@ -122,9 +52,9 @@ export default function TablePartners() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[15, 30, 45]}
+        rowsPerPageOptions={[10, 30, 45]}
         component="div"
-        count={rows.length}
+        count={data?.value.length || 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

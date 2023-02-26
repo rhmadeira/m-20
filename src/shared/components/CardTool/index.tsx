@@ -9,7 +9,7 @@ interface ICardToolProps {
   icon: string;
   icon2?: "add" | "search";
   to: string;
-  colorBgIcon: "parceiro" | "processo" | "vans" | "pedidos";
+  colorBgIcon: "parceiro" | "processo" | "van" | "pedidos";
 }
 
 export default function CardTool({
@@ -50,7 +50,7 @@ export default function CardTool({
         bgcolor={
           colorBgIcon === "parceiro"
             ? "#007863"
-            : colorBgIcon === "vans"
+            : colorBgIcon === "van"
             ? "#4fbfa5"
             : colorBgIcon === "processo"
             ? "#52a7df"

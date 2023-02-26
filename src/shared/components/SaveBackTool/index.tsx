@@ -17,6 +17,7 @@ export default function SaveBackTool({
           variant="contained"
           color="info"
           onClick={handleBack}
+          type="button"
         >
           Voltar
         </Button>

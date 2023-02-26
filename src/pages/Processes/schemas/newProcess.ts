@@ -2,7 +2,9 @@ import * as zod from "zod";
 
 export const schemaNewProcess = zod.object({
   tipoProcesso: zod.string(),
-  vans: zod.string(),
+  comunicacao: zod.string(),
+  nome: zod.string(),
+  versao: zod.string(),
   //api
   chaveApi: zod.string(),
   secretKey: zod.string(),
