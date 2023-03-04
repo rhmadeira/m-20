@@ -1,7 +1,6 @@
 import {
   Box,
   Icon,
-  MenuItem,
   Paper,
   Typography,
   useMediaQuery,
@@ -11,28 +10,28 @@ import InputControlled from "../../../shared/components/form/InputControlled";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import { Controller } from "react-hook-form";
 import SaveBackTool from "../../../shared/components/SaveBackTool";
-import { schemaNewPartner } from "../schemas/newPartner";
+import { schemaNewPartnerApi } from "../schemas/newPartner";
 import BoxForm from "../../../shared/components/form/BoxForm";
 import { useNavigate } from "react-router-dom";
+import { useCreatePartner } from "../../../shared/services/hooks/usePartner";
 
-export type TNewPartner = zod.infer<typeof schemaNewPartner>;
+export type TNewPartner = zod.infer<typeof schemaNewPartnerApi>;
 
 export default function NewPartner() {
-  const { handleSubmit, control, watch } = useForm<TNewPartner>({
-    resolver: zodResolver(schemaNewPartner),
+  const { handleSubmit, control } = useForm<TNewPartner>({
+    resolver: zodResolver(schemaNewPartnerApi),
   });
-  const theme = useTheme();
-  const tipoPessoa = watch("pessoa");
   const navigate = useNavigate();
-  const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+  const smDown = useMediaQuery(useTheme().breakpoints.down("sm"));
+  const { mutate } = useCreatePartner();
 
-  function handleNewPartner(data: TNewPartner) {
-    console.log(data);
+  function handleNewPartner(partner: TNewPartner) {
+    mutate(partner, {
+      onSuccess: () => {
+        navigate("/parceiros");
+      },
+    });
   }
 
   function handleBackPartner() {
@@ -64,48 +63,7 @@ export default function NewPartner() {
             width="auto"
             flexWrap={smDown ? "wrap" : "nowrap"}
           >
-            <Box>
-              <InputControlled
-                controller={{ name: "codigo", defaultValue: "", control }}
-                variant="outlined"
-                label="Código"
-                color="secondary"
-              />
-            </Box>
-            <Box width="300px">
-              <Controller
-                name="pessoa"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <FormControl focused={false} size="small" fullWidth>
-                    <InputLabel>Tipo de pessoa</InputLabel>
-
-                    <Select label="Tipo de pessoa" {...field}>
-                      <MenuItem value={"1"}>Física</MenuItem>
-                      <MenuItem value={"2"}>Jurídica</MenuItem>
-                    </Select>
-                  </FormControl>
-                )}
-              />
-            </Box>
-
-            <Box
-              width="300px"
-              sx={{ display: tipoPessoa === "1" ? "initial" : "none" }}
-            >
-              <InputControlled
-                controller={{ name: "cpf", defaultValue: "", control }}
-                variant="outlined"
-                label="CPF"
-                color="secondary"
-              />
-            </Box>
-
-            <Box
-              width="300px"
-              sx={{ display: tipoPessoa === "2" ? "initial" : "none" }}
-            >
+            <Box width="310px">
               <InputControlled
                 controller={{ name: "cnpj", defaultValue: "", control }}
                 variant="outlined"
@@ -127,9 +85,9 @@ export default function NewPartner() {
               color="secondary"
             />
             <InputControlled
-              controller={{ name: "nomeFantasia", defaultValue: "", control }}
+              controller={{ name: "nome", defaultValue: "", control }}
               variant="outlined"
-              label="Nome Fantasia"
+              label="Nome"
               color="secondary"
             />
           </Box>
@@ -144,7 +102,7 @@ export default function NewPartner() {
               variant="outlined"
               label="E-mail"
               color="secondary"
-            />{" "}
+            />
             <InputControlled
               controller={{ name: "telefone", defaultValue: "", control }}
               variant="outlined"

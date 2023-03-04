@@ -8,8 +8,7 @@ import {
   Theme,
   useMediaQuery,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { getVan } from "../../../../../shared/services/van";
+import { useState } from "react";
 
 interface LinhaProps {
   row: {

@@ -8,7 +8,7 @@ export default function PageLayout() {
 
   return (
     <Box
-      height="100%"
+      height="100vh"
       // maxWidth="1200px"
       margin="0 auto"
       component="main"
@@ -17,7 +17,7 @@ export default function PageLayout() {
       paddingTop={smDown ? theme.spacing(7) : theme.spacing(8)}
       overflow="auto"
     >
-      <Box overflow="auto" flex="1" height="100%">
+      <Box flex="1" height="100%">
         <Box
           display="flex"
           alignItems="center"
@@ -28,12 +28,7 @@ export default function PageLayout() {
             <LastNavigate />
           </Box>
         </Box>
-        <Box
-          overflow="auto"
-          flex="1"
-          height="100%"
-          padding={smDown ? "10px" : "10px 20px"}
-        >
+        <Box overflow="auto" flex="1" padding={smDown ? "10px" : "10px 20px"}>
           <Outlet />
         </Box>
       </Box>

@@ -1,52 +1,32 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  MutateOptions,
-} from "react-query";
+import { useMutation, useQuery, MutateOptions } from "react-query";
 
 import { api } from "../axios";
+import { IPartner, IPartnerCreate, IPartnerUpdate } from "../schemas/partners";
 
-type IPartner = {
-  id: number;
-  nome: string;
-  cnpj: string;
-  razaoSocial: string;
-  email: string;
-  telefone: string;
-};
-
-type GetPartnerResponse = {
-  value: IPartner[];
-  totalCount: number;
-};
-type GetPartnerIdResponse = {
-  value: IPartner;
-  totalCount: number;
-};
+export interface ApiResponseModel<T> {
+  value: T;
+  count: number;
+  hasSuccess: boolean;
+  hasError: boolean;
+  errors: any[];
+  httpStatusCode: string;
+  dataRequisicao: Date;
+}
 
 export function useGetPartner() {
-  return useQuery(
-    ["partner"],
-    async () => {
-      const { data } = await api.get<GetPartnerResponse>("/parceiros");
-      if (data) console.log(data.value);
-      return {
-        value: data.value,
-        // totalCount: data.totalCount,
-      };
-    },
-    {
-      staleTime: 60000, // 1 minute
-    }
-  );
+  return useQuery(["partner"], async () => {
+    const { data } = await api.get<ApiResponseModel<IPartner[]>>("/parceiros");
+    return data.value;
+  });
 }
 
 export function useGetPartnerId(id: number) {
   return useQuery(
     ["partner", id],
     async () => {
-      const { data } = await api.get<GetPartnerIdResponse>(`/parceiros/${id}`);
+      const { data } = await api.get<ApiResponseModel<IPartner>>(
+        `/parceiros/${id}`
+      );
       return data;
     },
     {
@@ -72,8 +52,21 @@ export function useUpdatePartner(
   options?: MutateOptions<unknown, unknown, unknown>
 ) {
   return useMutation(
-    async (partner: IPartner) => {
+    async (partner: IPartnerUpdate) => {
       await api.put(`/parceiros`, partner);
+    },
+    {
+      ...options,
+    }
+  );
+}
+
+export function useCreatePartner(
+  options?: MutateOptions<unknown, unknown, unknown>
+) {
+  return useMutation(
+    async (partner: IPartnerCreate) => {
+      await api.post(`/parceiros`, partner);
     },
     {
       ...options,

@@ -7,16 +7,19 @@ import { globalStyles } from "./shared/themes/global/global";
 import { Ligth } from "./shared/themes/Light";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "./shared/services/queryClient";
+import AuthProvider from "./shared/context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider theme={Ligth}>
     <QueryClientProvider client={queryClient}>
-      <DrawerProvider>
-        <BrowserRouter>
-          {globalStyles}
-          <App />
-        </BrowserRouter>
-      </DrawerProvider>
+      <AuthProvider>
+        <DrawerProvider>
+          <BrowserRouter>
+            {globalStyles}
+            <App />
+          </BrowserRouter>
+        </DrawerProvider>
+      </AuthProvider>
     </QueryClientProvider>
   </ThemeProvider>
 );

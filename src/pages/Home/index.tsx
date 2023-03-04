@@ -21,9 +21,6 @@ export default function Home() {
       height="100%"
       gap={2}
     >
-      {/* <Box>
-        <Typography variant="h5">Menu Rápido</Typography>
-      </Box> */}
       <Box display="flex" flexDirection="column" gap={4}>
         <Box bgcolor={theme.palette.background.paper}>
           <Typography variant="body1">CADASTRO:</Typography>
@@ -36,14 +33,6 @@ export default function Home() {
             title="Novo parceiro"
             colorBgIcon="parceiro"
           />
-
-          {/* <CardTool
-            to="van/novavan"
-            icon="assignment"
-            icon2="add"
-            title="Nova Van"
-            colorBgIcon="van"
-          /> */}
         </BoxCardHome>
       </Box>
       <Box display="flex" flexDirection="column" gap={4}>

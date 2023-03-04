@@ -4,23 +4,22 @@ import { api } from "../axios";
 type IVan = {
   id: string;
   nome: string;
+  comunicacao: number;
 };
 
-type GetVanResponse = {
-  value: IVan[];
-  totalCount: number;
-};
-
-async function getVan(): Promise<GetVanResponse> {
-  const { data } = await api.get(`/Van`);
-  return {
-    value: data.value,
-    totalCount: data.count,
-  };
+interface ApiResponseModel<T> {
+  value: T;
+  count: number;
+  hasSuccess: boolean;
+  hasError: boolean;
+  errors: any[];
+  httpStatusCode: string;
+  dataRequisicao: Date;
 }
 
-export function useVan() {
-  return useQuery(["Van"], () => getVan(), {
-    staleTime: 60000, // 1 minute
+export function useGetVan() {
+  return useQuery(["van"], async () => {
+    const { data } = await api.get<ApiResponseModel<IVan[]>>("/van");
+    return data.value;
   });
 }

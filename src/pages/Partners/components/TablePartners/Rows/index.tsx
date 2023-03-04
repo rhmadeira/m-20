@@ -6,55 +6,71 @@ import {
   TableCell,
   TableRow,
   Theme,
+  Tooltip,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { useState } from "react";
+import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import AlertDialog from "../../../../../shared/components/AlertDialog";
-import AlertController from "../../../../../shared/components/AlertDialog";
-import { api } from "../../../../../shared/services/axios";
+import useEnumsAssociation from "../../../../../shared/services/hooks/useEnumsAssociation";
 import { useDeletePartner } from "../../../../../shared/services/hooks/usePartner";
-import { deletePartnerId } from "../../../../../shared/services/partners";
+import { getProcessPartner } from "../../../../../shared/services/process";
+import {
+  IPartner,
+  IProcesso,
+} from "../../../../../shared/services/schemas/partners";
+import { cnpjMask } from "../../../../../shared/utils/masks";
 import InfoProcess from "../InfoProcess";
 
-interface LinhaProps {
-  row: {
-    id: number;
-    nome: string;
-    cnpj: string;
-    razaoSocial: string;
-    email: string;
-    telefone: string;
-  };
+interface IRowsProps {
+  row: IPartner;
 }
 
-export function Rows({ row }: LinhaProps) {
+export function Rows({ row }: IRowsProps) {
   const [open, setOpen] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
+  const [processos, setProcessos] = useState<IProcesso[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const client = useQueryClient();
-  const { mutate } = useDeletePartner();
+  const deletePartner = useDeletePartner();
+  const { communication, integration } = useEnumsAssociation();
 
   function handleClickDelete() {
     setAlertOpen(true);
   }
 
   function handleDelete(id: number) {
-    mutate(id, {
+    deletePartner.mutate(id, {
       onSuccess: () => {
         client.invalidateQueries("partner");
       },
     });
   }
+
+  function handleClickStatus() {
+    console.log("status");
+  }
+
   function confirmationDelete() {
     handleDelete(row.id);
     setAlertOpen(false);
   }
 
-  function handleDoubleClick() {
-    console.log("double click");
+  async function handleDobleClickProcess(id: number) {
+    try {
+      if (open) return setOpen(!open);
+      setIsLoading(true);
+      setOpen(true);
+      const responseProcess = await getProcessPartner(id);
+      setProcessos(responseProcess.value.processos);
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -69,16 +85,12 @@ export function Rows({ row }: LinhaProps) {
           backgroundColor: open ? "#e9e9e9" : "white",
         }}
         hover
+        onDoubleClick={() => handleDobleClickProcess(row.id)}
       >
-        <TableCell
-          padding="checkbox"
-          onDoubleClick={handleDoubleClick}
-          component="th"
-          scope="row"
-        >
+        <TableCell padding="checkbox" component="th" scope="row">
           {row.id}
         </TableCell>
-        <TableCell padding="checkbox" onDoubleClick={() => setOpen(!open)}>
+        <TableCell padding="checkbox">
           <Box
             // display="block"
             width={smDown ? "200px" : "100%"}
@@ -86,39 +98,53 @@ export function Rows({ row }: LinhaProps) {
             overflow="hidden"
             textOverflow="ellipsis"
           >
-            {row.nome}
+            {row.nome.toLocaleUpperCase()}
           </Box>
         </TableCell>
-        <TableCell padding="checkbox" onDoubleClick={() => setOpen(!open)}>
-          {row.cnpj}
-        </TableCell>
-        <TableCell padding="checkbox" onDoubleClick={() => setOpen(!open)}>
-          {row.email}
-        </TableCell>
-        <TableCell padding="checkbox" onDoubleClick={() => setOpen(!open)}>
-          {row.telefone}
-        </TableCell>
+        <TableCell padding="checkbox">{cnpjMask(row.cnpj)}</TableCell>
+        <TableCell padding="checkbox">{row.email}</TableCell>
+        <TableCell padding="checkbox">{row.telefone}</TableCell>
+        {/* <TableCell padding="checkbox">
+          {row.ativo ? (
+            <Typography color="green">Ativo</Typography>
+          ) : (
+            <Typography color="red">Inativo</Typography>
+          )}
+        </TableCell> */}
 
         <TableCell align="right" padding="checkbox">
           <Box display="flex" alignItems="center">
             Processos
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? (
-                <Icon>keyboard_arrow_up</Icon>
-              ) : (
-                <Icon>keyboard_arrow_down</Icon>
-              )}
-            </IconButton>
-            <IconButton onClick={() => navigate(`/parceiros/${row.id}`)}>
-              <Icon fontSize="small">edit</Icon>
-            </IconButton>
-            <IconButton onClick={handleClickDelete}>
-              <Icon fontSize="small">delete_icon</Icon>
-            </IconButton>
+            <Tooltip title="Ver processos">
+              <IconButton
+                aria-label="expand row"
+                size="small"
+                onClick={() => handleDobleClickProcess(row.id)}
+              >
+                {open ? (
+                  <Icon>keyboard_arrow_up</Icon>
+                ) : (
+                  <Icon>keyboard_arrow_down</Icon>
+                )}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Editar">
+              <IconButton onClick={() => navigate(`/parceiros/${row.id}`)}>
+                <Icon fontSize="small">edit</Icon>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Deletar">
+              <IconButton onClick={handleClickDelete}>
+                <Icon fontSize="small">delete_icon</Icon>
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={row.ativo ? "Ativo" : "Inativo"}>
+              <IconButton onClick={handleClickStatus}>
+                <Icon fontSize="small" color={row.ativo ? "success" : "error"}>
+                  circle
+                </Icon>
+              </IconButton>
+            </Tooltip>
             {alertOpen && (
               <AlertDialog
                 alertOpen={alertOpen}
@@ -138,7 +164,13 @@ export function Rows({ row }: LinhaProps) {
             unmountOnExit
           >
             <Box sx={{ margin: 1 }}>
-              <InfoProcess />
+              <InfoProcess
+                isLoading={isLoading}
+                process={processos}
+                communication={communication}
+                integration={integration}
+                id={row.id}
+              />
             </Box>
           </Collapse>
         </TableCell>

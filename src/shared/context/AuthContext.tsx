@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import JwtDecode from "jwt-decode";
-// import { env } from '../environment/env';
 
 export type AuthContextDefault = {
   token: string;
@@ -11,7 +10,7 @@ export type AuthContextDefault = {
   setUsername: Dispatch<SetStateAction<string>>;
   permissions: string;
   setPermissions: Dispatch<SetStateAction<string>>;
-  webSocket: WebSocket | null;
+  // webSocket: WebSocket | null;
 };
 
 export const AuthContext = React.createContext<AuthContextDefault>(
@@ -24,7 +23,7 @@ const STORE = {
 };
 
 const AuthProvider = ({ children }: any): JSX.Element => {
-  const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
+  // const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
   const [token, setToken] = useState(localStorage.getItem(STORE.jwt) || "");
   const [roles, setRoles] = useState(localStorage.getItem("roles") || "");
   const [username, setUsername] = useState(
@@ -39,30 +38,10 @@ const AuthProvider = ({ children }: any): JSX.Element => {
     let { origin, pathname } = window.location;
 
     if (!token && pathname !== "/login-callback") {
-      const baseUrl = process.env.REACT_APP_IDENTITY_BASE_URL;
+      const baseUrl = import.meta.env.VITE_API_IDENTITY_BASE_URL;
       window.location.href = `${baseUrl}/login?url_return=${pathname}&url_callback=${origin}/login-callback`;
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (token) {
-  //     const { id } = JwtDecode<any>(`Bearer ${token}`);
-
-  //     const url = env.api.url.replace("https", "wss").replace(/api$/, "ws");
-  //     const ws = new WebSocket(url + "?userId=" + id);
-
-  //     ws.onopen = (_) => {
-  //       ws.onmessage = (ev) => console.log("Mensagem recebida: ", ev.data);
-  //       setWebSocket(ws);
-  //     };
-
-  //     ws.onerror = (ev) => {
-  //       console.error("Falha ao conectar ao websocket", ev);
-  //     };
-
-  //     ws.onclose = (_) => setWebSocket(null);
-  //   }
-  // }, [token]);
 
   return (
     <AuthContext.Provider
@@ -75,7 +54,7 @@ const AuthProvider = ({ children }: any): JSX.Element => {
         setUsername,
         permissions,
         setPermissions,
-        webSocket,
+        // webSocket,
       }}
     >
       {children}

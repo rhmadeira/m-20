@@ -1,152 +1,49 @@
 import {
   Icon,
+  IconButton,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
-  useTheme,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { IProcesso } from "../../../../../shared/services/schemas/partners";
+import {
+  ICommunication,
+  IIntegration,
+} from "../../../../../shared/services/schemas/process";
 
-const processos = [
-  {
-    id: 1,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 1",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: true,
-  },
-  {
-    id: 2,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 2",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação  1",
-    habilitado: false,
-  },
-  {
-    id: 3,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 3",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: false,
-  },
-  {
-    id: 4,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 4",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: true,
-  },
-  {
-    id: 5,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 1",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: true,
-  },
-  {
-    id: 6,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 2",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação  1",
-    habilitado: false,
-  },
-  {
-    id: 7,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 3",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: false,
-  },
-  {
-    id: 8,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 4",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: true,
-  },
-  {
-    id: 9,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 3",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: false,
-  },
-  {
-    id: 11,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 4",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: true,
-  },
-  {
-    id: 12,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 1",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: true,
-  },
-  {
-    id: 13,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 2",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação  1",
-    habilitado: false,
-  },
-  {
-    id: 14,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 3",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: false,
-  },
-  {
-    id: 15,
-    code: "123",
-    processo: "Acode - Dicionario (Exportação) 4",
-    van: "Van Acode Dicionario 1",
-    versao: "Versão 1",
-    operacao: "Operação 1",
-    habilitado: true,
-  },
-];
+interface IProcessoProps {
+  process: IProcesso[];
+  communication: ICommunication[];
+  integration: IIntegration[];
+  isLoading: boolean;
+  id: number;
+}
 
-export default function InfoProcess() {
-  const theme = useTheme();
+export default function InfoProcess({
+  process,
+  communication,
+  integration,
+  isLoading,
+  id,
+}: IProcessoProps) {
   const navigate = useNavigate();
 
   function handleClickNewProcess() {
-    navigate("/processos/novoprocesso");
+    navigate(`/processos/novoprocesso/${id}`);
+  }
+  function handleClickDelete() {
+    console.log("deletar");
+  }
+  function handleClickStatus() {
+    console.log("status");
   }
 
   return (
@@ -178,40 +75,78 @@ export default function InfoProcess() {
           Novo processo
         </Button>
       </Box>
-      {/* <Divider /> */}
       <Table size="small" aria-label="purchases">
         <TableHead>
           <TableRow>
-            <TableCell>Code</TableCell>
-            <TableCell>Processo</TableCell>
             <TableCell>Vans</TableCell>
-            <TableCell>Versão</TableCell>
-            <TableCell>Habilitação</TableCell>
+            <TableCell>Tipo de integração</TableCell>
+            <TableCell>Tipo de comunicação</TableCell>
+            <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {processos.map((process) => (
-            <TableRow key={process.id}>
-              <TableCell component="th" scope="row">
-                {process.code}
-              </TableCell>
-              <TableCell>{process.processo}</TableCell>
-              <TableCell>{process.van}</TableCell>
-              <TableCell>{process.versao}</TableCell>
-              <TableCell align="center">
-                {process.habilitado ? (
-                  <Icon color="success" fontSize="small">
-                    check_circle
-                  </Icon>
-                ) : (
-                  <Icon color="warning" fontSize="small">
-                    circle
-                  </Icon>
-                )}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        {isLoading && (
+          <TableBody>
+            {[...Array(10)].map((_, index) => (
+              <TableRow key={index}>
+                {[...Array(6)].map((_, index) => (
+                  <TableCell key={index}>
+                    <Skeleton />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        )}
+        {!isLoading && (
+          <TableBody>
+            {process.map((process) => (
+              <TableRow key={process.id}>
+                <TableCell component="th" scope="row">
+                  {process.van.nome}
+                </TableCell>
+                <TableCell>
+                  {integration?.map((int) => (
+                    <Typography key={int.nome}>
+                      {int?.valor === +process.van.tipocomunicacao &&
+                        int?.descricao}
+                    </Typography>
+                  ))}
+                </TableCell>
+
+                <TableCell>
+                  {communication?.map((communication) => (
+                    <Typography key={communication.descricao}>
+                      {communication?.valor === +process.van.tipocomunicacao &&
+                        communication?.descricao}
+                    </Typography>
+                  ))}
+                </TableCell>
+                <Tooltip title="Editar">
+                  <IconButton
+                    onClick={() => navigate(`/processos/${process.id}`)}
+                  >
+                    <Icon fontSize="small">edit</Icon>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Deletar">
+                  <IconButton onClick={handleClickDelete}>
+                    <Icon fontSize="small">delete_icon</Icon>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={process.ativo ? "Ativo" : "Inativo"}>
+                  <IconButton onClick={handleClickStatus}>
+                    <Icon
+                      fontSize="small"
+                      color={process.ativo ? "success" : "error"}
+                    >
+                      circle
+                    </Icon>
+                  </IconButton>
+                </Tooltip>
+              </TableRow>
+            ))}
+          </TableBody>
+        )}
       </Table>
     </Box>
   );

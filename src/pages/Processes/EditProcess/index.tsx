@@ -18,14 +18,14 @@ import { schemaNewProcess } from "../schemas/newProcess";
 import SaveBackTool from "../../../shared/components/SaveBackTool";
 import BoxForm from "../../../shared/components/form/BoxForm";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCreateProcess } from "../../../shared/services/hooks/useProcess";
 
 import useEnumsAssociation from "../../../shared/services/hooks/useEnumsAssociation";
 
 export type TNewProcess = zod.infer<typeof schemaNewProcess>;
 
-export default function NewProcess() {
+export default function EditProcess() {
   const { handleSubmit, control, watch, setValue } = useForm<TNewProcess>({
     resolver: zodResolver(schemaNewProcess),
   });
@@ -41,6 +41,16 @@ export default function NewProcess() {
   useEffect(() => {
     if (id) setValue("parceiro", Number(id));
   }, []);
+  // useEffect(() => {
+  //   if (data)
+  //     reset({
+  //       ...data.value,
+  //       cnpj: data.value.cnpj.replace(
+  //         /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/,
+  //         "$1.$2.$3/$4-$5"
+  //       ),
+  //     });
+  // }, [data]);
 
   useEffect(() => {
     if (watch("van")) {
@@ -82,7 +92,7 @@ export default function NewProcess() {
         component={Paper}
       >
         <Typography paddingLeft={3} paddingTop={2} variant="h5">
-          Novo Processo <Icon color="info">mode_edit_outline</Icon>
+          Editar Processo <Icon color="info">mode_edit_outline</Icon>
         </Typography>
         <BoxForm onSubmit={handleSubmit(handleNewProcess)}>
           <Box

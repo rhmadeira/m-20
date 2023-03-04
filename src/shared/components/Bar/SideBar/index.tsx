@@ -58,12 +58,12 @@ export default function Sidebar({ isOpenSideBar, setIsOpenSidebar }: IProps) {
                 <OptionsLink
                   label="Quant. Max. Produtos"
                   icon="inventory"
-                  to="/manutencao"
+                  to="/"
                 />
                 <OptionsLink
                   label="Prazo fixo por Clientes"
                   icon="pending_actions"
-                  to="/manutencao"
+                  to="/"
                 />
               </Box>
             </Box>

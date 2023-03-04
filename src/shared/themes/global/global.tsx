@@ -19,13 +19,20 @@ export const globalStyles = (
       *::-webkit-scrollbar {
         width: 1px;
       }
+
       *::-webkit-scrollbar-track {
         background: #d7d9da;
       }
+
       *::-webkit-scrollbar-thumb {
         background-color: #006c5b;
-        border-radius: 20px;
+        border-radius: 1px;
       }
+
+      *::-webkit-scrollbar-thumb:hover {
+        background-color: #006c5b;
+      }
+
       * {
         box-sizing: border-box;
       }
