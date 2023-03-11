@@ -12,12 +12,18 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
-import { IProcesso } from "../../../../../shared/services/schemas/partners";
+import { useState } from "react";
+import { useQueryClient } from "react-query";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import AlertDialog from "../../../../../shared/components/AlertDialog";
+import useEnumsAssociation from "../../../../../shared/services/hooks/useEnumsAssociation";
+import { useDeleteProcess } from "../../../../../shared/services/hooks/useProcess";
 import {
   ICommunication,
   IIntegration,
-} from "../../../../../shared/services/schemas/process";
+} from "../../../../../shared/services/schemas/enums";
+import { IProcesso } from "../../../../../shared/services/schemas/process";
 
 interface IProcessoProps {
   process: IProcesso[];
@@ -25,6 +31,8 @@ interface IProcessoProps {
   integration: IIntegration[];
   isLoading: boolean;
   id: number;
+  idParceiro: number;
+  setOpen: (open: boolean) => void;
 }
 
 export default function InfoProcess({
@@ -33,17 +41,46 @@ export default function InfoProcess({
   integration,
   isLoading,
   id,
+  idParceiro,
+  setOpen,
 }: IProcessoProps) {
   const navigate = useNavigate();
+  const { van } = useEnumsAssociation();
+  const processDelete = useDeleteProcess();
+  const client = useQueryClient();
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [idProcessDelete, setIdProcessDelete] = useState("");
 
   function handleClickNewProcess() {
-    navigate(`/processos/novoprocesso/${id}`);
+    navigate(`/processos/novoprocesso/${idParceiro}`);
   }
-  function handleClickDelete() {
-    console.log("deletar");
+
+  function handleClickDeleteProcess(idParceiro: string, idProcesso: string) {
+    const id = { idParceiro, idProcesso };
+    processDelete.mutate(id, {
+      onSuccess: () => {
+        client.invalidateQueries("partner");
+        setOpen(false);
+        toast("Processo excluído com sucesso!", {
+          type: "success",
+        });
+      },
+      onError: () => {
+        toast("Erro ao excluir processo!", {
+          type: "error",
+        });
+      },
+    });
   }
-  function handleClickStatus() {
-    console.log("status");
+
+  function handleClickDelete(id: number) {
+    setAlertOpen(true);
+    if (id) setIdProcessDelete(String(id));
+  }
+
+  function confirmationDelete() {
+    handleClickDeleteProcess(String(idParceiro), String(idProcessDelete));
+    setAlertOpen(false);
   }
 
   return (
@@ -78,9 +115,9 @@ export default function InfoProcess({
       <Table size="small" aria-label="purchases">
         <TableHead>
           <TableRow>
-            <TableCell>Vans</TableCell>
-            <TableCell>Tipo de integração</TableCell>
-            <TableCell>Tipo de comunicação</TableCell>
+            <TableCell>Van</TableCell>
+            <TableCell>Tipo Processo</TableCell>
+            <TableCell>Comunicação</TableCell>
             <TableCell align="center">Ações</TableCell>
           </TableRow>
         </TableHead>
@@ -100,54 +137,63 @@ export default function InfoProcess({
         {!isLoading && (
           <TableBody>
             {process.map((process) => (
-              <TableRow key={process.id}>
+              <TableRow key={`${process.id}`}>
                 <TableCell component="th" scope="row">
-                  {process.van.nome}
+                  {van.find((item) => item.id === process.vanId)?.nome}
                 </TableCell>
                 <TableCell>
-                  {integration?.map((int) => (
-                    <Typography key={int.nome}>
-                      {int?.valor === +process.van.tipocomunicacao &&
-                        int?.descricao}
-                    </Typography>
-                  ))}
+                  {
+                    integration.find(
+                      (item) => item.valor === process.tipoProcesso
+                    )?.nome
+                  }
                 </TableCell>
-
                 <TableCell>
-                  {communication?.map((communication) => (
-                    <Typography key={communication.descricao}>
-                      {communication?.valor === +process.van.tipocomunicacao &&
-                        communication?.descricao}
-                    </Typography>
-                  ))}
+                  {
+                    van.find((item) => item.id === process.vanId)
+                      ?.tipoComunicacao
+                  }
                 </TableCell>
-                <Tooltip title="Editar">
-                  <IconButton
-                    onClick={() => navigate(`/processos/${process.id}`)}
-                  >
-                    <Icon fontSize="small">edit</Icon>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Deletar">
-                  <IconButton onClick={handleClickDelete}>
-                    <Icon fontSize="small">delete_icon</Icon>
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title={process.ativo ? "Ativo" : "Inativo"}>
-                  <IconButton onClick={handleClickStatus}>
-                    <Icon
-                      fontSize="small"
-                      color={process.ativo ? "success" : "error"}
+                <TableCell align="center">
+                  <Tooltip title="Editar">
+                    <IconButton
+                      onClick={() =>
+                        navigate(`/processos/${idParceiro}/${process.id}`)
+                      }
                     >
-                      circle
-                    </Icon>
-                  </IconButton>
-                </Tooltip>
+                      <Icon fontSize="small">edit</Icon>
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Deletar">
+                    <IconButton onClick={() => handleClickDelete(process.id!)}>
+                      <Icon fontSize="small">delete_icon</Icon>
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title={process.ativo ? "ativo" : "inativo"}>
+                    <IconButton>
+                      <Icon
+                        fontSize="small"
+                        color={process.ativo ? "success" : "error"}
+                      >
+                        circle
+                      </Icon>
+                    </IconButton>
+                  </Tooltip>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         )}
       </Table>
+      {alertOpen && (
+        <AlertDialog
+          alertOpen={alertOpen}
+          setAlertOpen={setAlertOpen}
+          confirmation={confirmationDelete}
+          title="Deletar"
+          description="Tem certeza que deseja deletar este processo?"
+        />
+      )}
     </Box>
   );
 }

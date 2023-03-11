@@ -3,11 +3,13 @@ import { Box, Button, Icon } from "@mui/material";
 interface ISaveBackTool {
   handleBack: () => void;
   handleSave?: () => void;
+  typeButtonSave?: "submit" | "button";
 }
 
 export default function SaveBackTool({
   handleBack,
   handleSave,
+  typeButtonSave = "submit",
 }: ISaveBackTool) {
   return (
     <Box display="flex" alignItems="center" gap={1}>
@@ -27,7 +29,7 @@ export default function SaveBackTool({
           startIcon={<Icon fontSize="small">save</Icon>}
           variant="contained"
           color="secondary"
-          type="submit"
+          type={typeButtonSave}
           onClick={handleSave}
         >
           Salvar

@@ -4,18 +4,13 @@ export const schemaNewPartner = zod.object({
   cnpj: zod.string(),
   razaoSocial: zod.string(),
   nome: zod.string(),
-  email: zod.string(),
-  telefone: zod.string(),
-});
-
-export const schemaEditPartner = zod.object({
-  id: zod.number(),
-  cnpj: zod.string(),
-  razaoSocial: zod.string(),
-  nome: zod.string(),
-  email: zod.string(),
+  email: zod.string().optional(),
   telefone: zod.string(),
   ativo: zod.boolean(),
+});
+
+export const schemaEditPartner = schemaNewPartner.extend({
+  id: zod.number(),
 });
 
 export const schemaNewPartnerApi = schemaNewPartner.transform((data) => {

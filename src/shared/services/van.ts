@@ -1,6 +1,6 @@
 import { api } from "./axios";
-import { ApiResponseModel } from "./hooks/usePartner";
-import { IVan } from "./schemas/partners";
+import { ApiResponseModel } from "./schemas/default";
+import { IVan } from "./schemas/van";
 
 export const getVanProcessPartner = async () => {
   const { data } = await api.get<ApiResponseModel<IVan[]>>(`/van`);

@@ -10,7 +10,6 @@ export type AuthContextDefault = {
   setUsername: Dispatch<SetStateAction<string>>;
   permissions: string;
   setPermissions: Dispatch<SetStateAction<string>>;
-  // webSocket: WebSocket | null;
 };
 
 export const AuthContext = React.createContext<AuthContextDefault>(
@@ -23,7 +22,6 @@ const STORE = {
 };
 
 const AuthProvider = ({ children }: any): JSX.Element => {
-  // const [webSocket, setWebSocket] = useState<WebSocket | null>(null);
   const [token, setToken] = useState(localStorage.getItem(STORE.jwt) || "");
   const [roles, setRoles] = useState(localStorage.getItem("roles") || "");
   const [username, setUsername] = useState(
@@ -54,7 +52,6 @@ const AuthProvider = ({ children }: any): JSX.Element => {
         setUsername,
         permissions,
         setPermissions,
-        // webSocket,
       }}
     >
       {children}

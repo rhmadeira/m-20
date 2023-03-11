@@ -32,10 +32,6 @@ export default function Partners() {
     window.location.reload();
   };
 
-  const handleGenerateSpreadsheet = () => {
-    console.log("gerando planilha");
-  };
-
   const handleClickButtonFilter = (data: IFormSearch) => {
     const Filtered = partners?.data?.filter(
       (partner) =>
@@ -47,7 +43,7 @@ export default function Partners() {
   };
 
   return (
-    <Box className="animeLeft" display="flex" flexDirection="column" gap={2}>
+    <Box className="animeLeft" display="flex" flexDirection="column" gap={1}>
       <Typography variant="h5">Parceiros</Typography>
       <Box
         component={Paper}
@@ -59,7 +55,6 @@ export default function Partners() {
         <GroupButtonTool
           handleButtonNew={handleNewPartner}
           handleButtonRefresh={handleRefresh}
-          handleButtonGenerateSpreadsheet={handleGenerateSpreadsheet}
           textBottomAdd="Novo parceiro"
           showSearch
         />

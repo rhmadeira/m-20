@@ -7,7 +7,6 @@ import {
   TableRow,
   Theme,
   Tooltip,
-  Typography,
   useMediaQuery,
 } from "@mui/material";
 import { useState } from "react";
@@ -17,10 +16,8 @@ import AlertDialog from "../../../../../shared/components/AlertDialog";
 import useEnumsAssociation from "../../../../../shared/services/hooks/useEnumsAssociation";
 import { useDeletePartner } from "../../../../../shared/services/hooks/usePartner";
 import { getProcessPartner } from "../../../../../shared/services/process";
-import {
-  IPartner,
-  IProcesso,
-} from "../../../../../shared/services/schemas/partners";
+import { IPartner } from "../../../../../shared/services/schemas/partners";
+import { IProcesso } from "../../../../../shared/services/schemas/process";
 import { cnpjMask } from "../../../../../shared/utils/masks";
 import InfoProcess from "../InfoProcess";
 
@@ -43,21 +40,17 @@ export function Rows({ row }: IRowsProps) {
     setAlertOpen(true);
   }
 
+  function confirmationDelete() {
+    handleDelete(row.id);
+    setAlertOpen(false);
+  }
+
   function handleDelete(id: number) {
     deletePartner.mutate(id, {
       onSuccess: () => {
         client.invalidateQueries("partner");
       },
     });
-  }
-
-  function handleClickStatus() {
-    console.log("status");
-  }
-
-  function confirmationDelete() {
-    handleDelete(row.id);
-    setAlertOpen(false);
   }
 
   async function handleDobleClickProcess(id: number) {
@@ -139,7 +132,7 @@ export function Rows({ row }: IRowsProps) {
               </IconButton>
             </Tooltip>
             <Tooltip title={row.ativo ? "Ativo" : "Inativo"}>
-              <IconButton onClick={handleClickStatus}>
+              <IconButton>
                 <Icon fontSize="small" color={row.ativo ? "success" : "error"}>
                   circle
                 </Icon>
@@ -149,7 +142,9 @@ export function Rows({ row }: IRowsProps) {
               <AlertDialog
                 alertOpen={alertOpen}
                 setAlertOpen={setAlertOpen}
-                confirmationDelete={confirmationDelete}
+                confirmation={confirmationDelete}
+                title="Deletar"
+                description="Tem certeza que deseja deletar este parceiro?"
               />
             )}
           </Box>
@@ -170,6 +165,8 @@ export function Rows({ row }: IRowsProps) {
                 communication={communication}
                 integration={integration}
                 id={row.id}
+                idParceiro={row.id}
+                setOpen={setOpen}
               />
             </Box>
           </Collapse>

@@ -1,16 +1,26 @@
 import * as zod from "zod";
 import { schemaNewProcessApi } from "../../../pages/Processes/schemas/newProcess";
 
-export interface ICommunication {
-  nome: string;
-  valor: number;
-  descricao: string;
+export interface IProcesso {
+  id?: number;
+  parceiroId?: number;
+  tipoProcesso?: number;
+  vanId?: number;
+  versao?: string;
+  usuarioAPI?: string;
+  secretKey?: string;
+  password?: string;
+  token?: string;
+  url?: string;
+  caminho?: string;
+  senhaFTP?: string;
+  usuarioFTP?: string;
+  ativo?: boolean;
 }
 
-export interface IIntegration {
-  nome: string;
-  valor: number;
-  descricao: string;
-}
+export type ICreateProcess = Omit<
+  zod.infer<typeof schemaNewProcessApi>,
+  "tipoComunicacao"
+>;
 
-export type ICreateProcess = zod.infer<typeof schemaNewProcessApi>;
+//Omit<zod.infer<typeof schemaNewProcessApi>, "id">;

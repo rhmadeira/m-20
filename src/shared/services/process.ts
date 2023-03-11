@@ -1,28 +1,21 @@
 import { api } from "./axios";
-import { ApiResponseModel } from "./hooks/usePartner";
+import { ApiResponseModel } from "./schemas/default";
 import { IPartner } from "./schemas/partners";
-import { ICommunication, IIntegration } from "./schemas/process";
+import { IProcesso } from "./schemas/process";
 
-interface ApiResponseModelEnums<T> {
-  results: T;
+interface Iids {
+  idParceiro: number;
+  idProcesso: number;
 }
+
 export const getProcessPartner = async (id: number) => {
-  const { data } = await api.get<ApiResponseModel<IPartner>>(
-    `/parceiros/${id}`
-  );
+  const { data } = await api.get<ApiResponseModel<IPartner>>(`/parceiro/${id}`);
   return data;
 };
 
-export const getCommunicationProcessPartner = async () => {
-  const { data } = await api.get<ApiResponseModelEnums<ICommunication[]>>(
-    `/Dominio/enums/EnumComunicacao`
-  );
-  return data;
-};
-
-export const getIntegrationProcessPartner = async () => {
-  const { data } = await api.get<ApiResponseModelEnums<IIntegration[]>>(
-    `/Dominio/enums/EnumTipoIntegracao`
+export const getProcessPartnerById = async (id: Iids) => {
+  const { data } = await api.get<ApiResponseModel<IProcesso>>(
+    `/parceiro/${id.idParceiro}/processo/${id.idProcesso}`
   );
   return data;
 };

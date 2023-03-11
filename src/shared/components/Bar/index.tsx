@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "./SideBar";
 import { useDrawerContext } from "../../context/ContextDrawer";
-import Logo from "../../../assets/millenium.svg";
+import Logo from "../../../assets/vectorSec.svg";
 import Icon from "@mui/material/Icon";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
@@ -50,7 +50,7 @@ export default function Bar() {
                 </IconButton>
               </Tooltip>
               <Box component={Link} to="/">
-                <img src={Logo} width={128} alt="" />
+                <img src={Logo} width={40} alt="" />
               </Box>
             </Box>
             <Tooltip title="Sair">

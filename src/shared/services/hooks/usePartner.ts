@@ -1,38 +1,23 @@
 import { useMutation, useQuery, MutateOptions } from "react-query";
 
 import { api } from "../axios";
+import { ApiResponseModel } from "../schemas/default";
 import { IPartner, IPartnerCreate, IPartnerUpdate } from "../schemas/partners";
-
-export interface ApiResponseModel<T> {
-  value: T;
-  count: number;
-  hasSuccess: boolean;
-  hasError: boolean;
-  errors: any[];
-  httpStatusCode: string;
-  dataRequisicao: Date;
-}
 
 export function useGetPartner() {
   return useQuery(["partner"], async () => {
-    const { data } = await api.get<ApiResponseModel<IPartner[]>>("/parceiros");
+    const { data } = await api.get<ApiResponseModel<IPartner[]>>("/parceiro");
     return data.value;
   });
 }
 
 export function useGetPartnerId(id: number) {
-  return useQuery(
-    ["partner", id],
-    async () => {
-      const { data } = await api.get<ApiResponseModel<IPartner>>(
-        `/parceiros/${id}`
-      );
-      return data;
-    },
-    {
-      staleTime: 60000, // 1 minute
-    }
-  );
+  return useQuery(["partner", id], async () => {
+    const { data } = await api.get<ApiResponseModel<IPartner>>(
+      `/parceiro/${id}`
+    );
+    return data;
+  });
 }
 
 export function useDeletePartner(
@@ -40,7 +25,7 @@ export function useDeletePartner(
 ) {
   return useMutation(
     async (id: number) => {
-      await api.delete(`/parceiros/${id}`);
+      await api.delete(`/parceiro/${id}`);
     },
     {
       ...options,
@@ -53,7 +38,7 @@ export function useUpdatePartner(
 ) {
   return useMutation(
     async (partner: IPartnerUpdate) => {
-      await api.put(`/parceiros`, partner);
+      await api.put(`/parceiro`, partner);
     },
     {
       ...options,
@@ -66,7 +51,7 @@ export function useCreatePartner(
 ) {
   return useMutation(
     async (partner: IPartnerCreate) => {
-      await api.post(`/parceiros`, partner);
+      await api.post(`/parceiro`, partner);
     },
     {
       ...options,

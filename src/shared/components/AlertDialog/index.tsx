@@ -8,14 +8,19 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 interface AlertDialogProps {
   alertOpen: boolean;
+  title: string;
+  description: string;
+
   setAlertOpen: (value: boolean) => void;
-  confirmationDelete: () => void;
+  confirmation: () => void;
 }
 
 export default function AlertDialog({
   alertOpen,
   setAlertOpen,
-  confirmationDelete,
+  confirmation,
+  description,
+  title,
 }: AlertDialogProps) {
   const handleClose = () => {
     setAlertOpen(false);
@@ -29,23 +34,23 @@ export default function AlertDialog({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">Apagar</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Você realmente deseja apagar este registro?
+            {description}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="success" onClick={handleClose}>
+          <Button variant="contained" color="error" onClick={handleClose}>
             Voltar
           </Button>
           <Button
             variant="contained"
-            color="error"
-            onClick={confirmationDelete}
+            color="info"
+            onClick={confirmation}
             autoFocus
           >
-            Apagar
+            {title}
           </Button>
         </DialogActions>
       </Dialog>

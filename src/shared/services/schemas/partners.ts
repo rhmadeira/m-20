@@ -1,28 +1,13 @@
-export interface IVan {
-  id: number;
-  nome: string;
-  tipocomunicacao: string;
-}
-
-export interface IProcesso {
-  id: number;
-  usuarioAPI: string;
-  password: string;
-  url: string;
-  van: IVan;
-  tipo: number;
-  token: string;
-  ativo: boolean;
-}
+import { IProcesso } from "./process";
 
 export interface IPartner {
-  ativo: boolean;
   id: number;
+  razaoSocial: string;
   nome: string;
   cnpj: string;
-  razaoSocial: string;
-  email: string;
+  email?: string;
   telefone: string;
+  ativo: boolean;
   processos: IProcesso[];
 }
 

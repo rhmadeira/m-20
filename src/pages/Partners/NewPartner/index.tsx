@@ -2,12 +2,13 @@ import {
   Box,
   Icon,
   Paper,
+  Switch,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import InputControlled from "../../../shared/components/form/InputControlled";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as zod from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SaveBackTool from "../../../shared/components/SaveBackTool";
@@ -15,21 +16,36 @@ import { schemaNewPartnerApi } from "../schemas/newPartner";
 import BoxForm from "../../../shared/components/form/BoxForm";
 import { useNavigate } from "react-router-dom";
 import { useCreatePartner } from "../../../shared/services/hooks/usePartner";
+import { toast } from "react-toastify";
+import { Label } from "@mui/icons-material";
+import { useEffect } from "react";
 
 export type TNewPartner = zod.infer<typeof schemaNewPartnerApi>;
 
 export default function NewPartner() {
-  const { handleSubmit, control } = useForm<TNewPartner>({
+  const { handleSubmit, control, watch, setValue } = useForm<TNewPartner>({
     resolver: zodResolver(schemaNewPartnerApi),
   });
   const navigate = useNavigate();
   const smDown = useMediaQuery(useTheme().breakpoints.down("sm"));
   const { mutate } = useCreatePartner();
 
+  useEffect(() => {
+    setValue("ativo", true);
+  }, []);
+
   function handleNewPartner(partner: TNewPartner) {
     mutate(partner, {
       onSuccess: () => {
         navigate("/parceiros");
+        toast("Parceiro cadastrado com sucesso!", {
+          type: "success",
+        });
+      },
+      onError: () => {
+        toast("Erro ao cadastrar parceiro!", {
+          type: "error",
+        });
       },
     });
   }
@@ -38,6 +54,8 @@ export default function NewPartner() {
     navigate("/parceiros");
   }
 
+  console.log(watch("ativo"));
+
   return (
     <Box
       className="animeLeft"
@@ -45,7 +63,6 @@ export default function NewPartner() {
       flexDirection="column"
       gap={2}
       alignItems="center"
-      marginTop={smDown ? 0 : 5}
     >
       <Box
         borderTop="10px solid #086aad"
@@ -108,6 +125,18 @@ export default function NewPartner() {
               variant="outlined"
               label="Telefone"
               color="secondary"
+            />
+          </Box>
+          <Box display="flex" alignItems="center">
+            <Label color={watch("ativo") ? "info" : "error"} />
+            {watch("ativo") ? "Ativo" : "Inativo"}
+            <Controller
+              control={control}
+              name="ativo"
+              defaultValue={false}
+              render={({ field }) => (
+                <Switch {...field} color="info" checked={field.value} />
+              )}
             />
           </Box>
           <SaveBackTool handleBack={handleBackPartner} />

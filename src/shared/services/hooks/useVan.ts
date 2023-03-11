@@ -1,21 +1,7 @@
 import { useQuery } from "react-query";
 import { api } from "../axios";
-
-type IVan = {
-  id: string;
-  nome: string;
-  comunicacao: number;
-};
-
-interface ApiResponseModel<T> {
-  value: T;
-  count: number;
-  hasSuccess: boolean;
-  hasError: boolean;
-  errors: any[];
-  httpStatusCode: string;
-  dataRequisicao: Date;
-}
+import { ApiResponseModel } from "../schemas/default";
+import { IVan } from "../schemas/van";
 
 export function useGetVan() {
   return useQuery(["van"], async () => {

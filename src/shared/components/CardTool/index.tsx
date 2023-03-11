@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 interface ICardToolProps {
   title: string;
   icon: string;
+  construction?: boolean;
   icon2?: "add" | "search";
   to: string;
-  colorBgIcon: "parceiro" | "processo" | "van" | "pedidos";
+  colorBgIcon: "green300" | "green500" | "blue200" | "blue400";
 }
 
 export default function CardTool({
@@ -18,9 +19,9 @@ export default function CardTool({
   icon2,
   to,
   colorBgIcon,
+  construction: construction = false,
 }: ICardToolProps) {
   const theme = useTheme();
-  const smDonw = useTheme().breakpoints.down("sm");
   const navigate = useNavigate();
   function handleClickCard() {
     navigate(to);
@@ -48,11 +49,11 @@ export default function CardTool({
         width="80px"
         height="80px"
         bgcolor={
-          colorBgIcon === "parceiro"
+          colorBgIcon === "green500"
             ? "#007863"
-            : colorBgIcon === "van"
+            : colorBgIcon === "green300"
             ? "#4fbfa5"
-            : colorBgIcon === "processo"
+            : colorBgIcon === "blue200"
             ? "#52a7df"
             : "#086aad"
         }
@@ -75,6 +76,11 @@ export default function CardTool({
       <Box position="absolute" left="140px" top="10px">
         <Icon fontSize="large">{icon2}</Icon>
       </Box>
+      {construction && (
+        <Box position="absolute" top="75px" right="10px">
+          <Icon color="error">construction</Icon>
+        </Box>
+      )}
     </Box>
   );
 }

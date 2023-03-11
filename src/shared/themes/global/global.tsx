@@ -35,6 +35,7 @@ export const globalStyles = (
 
       * {
         box-sizing: border-box;
+        text-decoration: none;
       }
 
       :root {
@@ -72,6 +73,14 @@ export const globalStyles = (
         to {
           opacity: 1;
           transform: initial;
+        }
+      }
+      @keyframes grow {
+        from {
+          transform: translateX(-100%);
+        }
+        to {
+          transform: translateX(0);
         }
       }
     `}

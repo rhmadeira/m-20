@@ -31,7 +31,7 @@ export default function Home() {
             icon="people"
             icon2="add"
             title="Novo parceiro"
-            colorBgIcon="parceiro"
+            colorBgIcon="green300"
           />
         </BoxCardHome>
       </Box>
@@ -45,28 +45,29 @@ export default function Home() {
             icon="people"
             icon2="search"
             title="Parceiros"
-            colorBgIcon="parceiro"
+            colorBgIcon="green500"
           />
-          <CardTool
+          {/* <CardTool
             to="/"
             icon="account_tree"
             icon2="search"
             title="Processos"
             colorBgIcon="processo"
-          />
-          <CardTool
-            to="van"
-            icon="assignment"
-            icon2="search"
-            title="Van"
-            colorBgIcon="van"
-          />
+          /> */}
           <CardTool
             to="/"
-            icon="shopping_cart"
+            icon="assignment"
             icon2="search"
             title="Pedidos"
-            colorBgIcon="pedidos"
+            colorBgIcon="blue400"
+            construction
+          />
+          <CardTool
+            to="retorno"
+            icon="call_split"
+            icon2="search"
+            title="Retornos"
+            colorBgIcon="blue200"
           />
         </BoxCardHome>
       </Box>

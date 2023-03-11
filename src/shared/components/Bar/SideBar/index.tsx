@@ -48,6 +48,7 @@ export default function Sidebar({ isOpenSideBar, setIsOpenSidebar }: IProps) {
                   to="parceiros"
                 />
                 <OptionsLink label="Van" icon="assignment" to="van" />
+                <OptionsLink label="Retorno" icon="call_split" to="retorno" />
               </Box>
               <Divider />
 

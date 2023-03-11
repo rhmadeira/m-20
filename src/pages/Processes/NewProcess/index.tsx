@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { useCreateProcess } from "../../../shared/services/hooks/useProcess";
 
 import useEnumsAssociation from "../../../shared/services/hooks/useEnumsAssociation";
+import { toast } from "react-toastify";
 
 export type TNewProcess = zod.infer<typeof schemaNewProcess>;
 
@@ -31,7 +32,7 @@ export default function NewProcess() {
   });
   const smDown = useMediaQuery(useTheme().breakpoints.down("sm"));
   const navigate = useNavigate();
-  const typeVanSelect = watch("van");
+  const typeVanSelect = watch("vanId");
   const typeCommunicationSelect = watch("tipocomunicacao");
   const { communication, integration, van } = useEnumsAssociation();
 
@@ -39,32 +40,39 @@ export default function NewProcess() {
   const { mutate } = useCreateProcess();
 
   useEffect(() => {
-    if (id) setValue("parceiro", Number(id));
+    if (id) setValue("parceiroId", Number(id));
   }, []);
 
   useEffect(() => {
-    if (watch("van")) {
-      const selectedVan = van.find((van) => van.id === Number(watch("van")));
+    if (watch("vanId")) {
+      const selectedVan = van.find((van) => van.id === Number(watch("vanId")));
 
       const comunicacaoToSelect = communication?.find(
-        (comunicacao) => comunicacao.nome === selectedVan?.tipocomunicacao
+        (comunicacao) => comunicacao.nome === selectedVan?.tipoComunicacao
       );
 
       setValue("tipocomunicacao", String(comunicacaoToSelect?.valor) || "");
     }
-  }, [watch("van")]);
+  }, [watch("vanId")]);
 
   function handleNewProcess(process: TNewProcess) {
     const data = {
       ...process,
-      parceiro: Number(id),
-      van: Number(process.van),
+      parceiroId: Number(id),
+      vanId: Number(process.vanId),
       tipoProcesso: Number(process.tipoProcesso),
-      tipocomunicacao: Number(process.tipocomunicacao),
     };
     mutate(data, {
       onSuccess: () => {
         navigate("/parceiros");
+        toast("Processo criado com sucesso!", {
+          type: "success",
+        });
+      },
+      onError: () => {
+        toast("Erro ao criar processo!", {
+          type: "error",
+        });
       },
     });
   }
@@ -76,9 +84,9 @@ export default function NewProcess() {
   return (
     <Box display="flex" flexDirection="column" gap={2} alignItems="center">
       <Box
+        borderTop="10px solid #086aad"
         width="100%"
         height="100%"
-        marginTop={smDown ? 0 : 5}
         component={Paper}
       >
         <Typography paddingLeft={3} paddingTop={2} variant="h5">
@@ -94,7 +102,7 @@ export default function NewProcess() {
           >
             <InputControlled
               controller={{
-                name: "parceiro",
+                name: "parceiroId",
                 defaultValue: "",
                 control,
               }}
@@ -122,7 +130,7 @@ export default function NewProcess() {
               )}
             />
             <Controller
-              name="van"
+              name="vanId"
               control={control}
               defaultValue=""
               render={({ field }) => (

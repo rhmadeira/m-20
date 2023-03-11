@@ -8,6 +8,7 @@ import { Ligth } from "./shared/themes/Light";
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "./shared/services/queryClient";
 import AuthProvider from "./shared/context/AuthContext";
+import { ToastContainer } from "react-toastify";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ThemeProvider theme={Ligth}>
@@ -16,7 +17,22 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <DrawerProvider>
           <BrowserRouter>
             {globalStyles}
+            
             <App />
+
+            <ToastContainer
+              position="top-right"
+              autoClose={2000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+
           </BrowserRouter>
         </DrawerProvider>
       </AuthProvider>

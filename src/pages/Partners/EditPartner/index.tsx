@@ -15,15 +15,18 @@ import SaveBackTool from "../../../shared/components/SaveBackTool";
 import { schemaEditPartner } from "../schemas/newPartner";
 import BoxForm from "../../../shared/components/form/BoxForm";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import {
   useGetPartnerId,
   useUpdatePartner,
 } from "../../../shared/services/hooks/usePartner";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Label } from "@mui/icons-material";
+import AlertDialog from "../../../shared/components/AlertDialog";
 
 export type TEditPartner = zod.infer<typeof schemaEditPartner>;
-// export type TCreatePartner = Omit<TNewPartner, "id">;
 
 export default function EditPartner() {
   const smDown = useMediaQuery(useTheme().breakpoints.down("sm"));
@@ -36,6 +39,7 @@ export default function EditPartner() {
   const navigate = useNavigate();
   const { data } = useGetPartnerId(Number(id));
   const { mutate } = useUpdatePartner();
+  const [alertOpen, setAlertOpen] = useState(false);
 
   useEffect(() => {
     if (data)
@@ -48,7 +52,7 @@ export default function EditPartner() {
       });
   }, [data]);
 
-  function handleEditPartner(partner: TEditPartner) {
+  async function handleEditPartner(partner: TEditPartner) {
     const partnerEdit = {
       ...partner,
       cnpj: partner.cnpj.replace(/(\.|\/|\-)/g, ""),
@@ -56,9 +60,22 @@ export default function EditPartner() {
     mutate(partnerEdit, {
       onSuccess: () => {
         client.invalidateQueries("partner");
+        toast.success("Parceiro editado com sucesso!");
         navigate("/parceiros");
       },
+      onError: () => {
+        toast.error("Erro ao editar parceiro!");
+      },
     });
+  }
+
+  function handleClickEdit() {
+    setAlertOpen(true);
+  }
+
+  function confirmationEdit() {
+    handleSubmit(handleEditPartner)();
+    setAlertOpen(false);
   }
 
   function handleBackPartner() {
@@ -72,7 +89,6 @@ export default function EditPartner() {
       flexDirection="column"
       gap={2}
       alignItems="center"
-      marginTop={smDown ? 0 : 5}
     >
       <Box
         borderTop="10px solid #086aad"
@@ -145,6 +161,10 @@ export default function EditPartner() {
               label="Telefone"
               color="secondary"
             />
+          </Box>
+          <Box display="flex" alignItems="center">
+            <Label color={watch("ativo") ? "info" : "error"} />
+            {watch("ativo") ? "Ativo" : "Inativo"}
             <Controller
               control={control}
               name="ativo"
@@ -154,7 +174,20 @@ export default function EditPartner() {
               )}
             />
           </Box>
-          <SaveBackTool handleBack={handleBackPartner} />
+          <SaveBackTool
+            handleSave={handleClickEdit}
+            handleBack={handleBackPartner}
+            typeButtonSave="button"
+          />
+          {alertOpen && (
+            <AlertDialog
+              alertOpen={alertOpen}
+              setAlertOpen={setAlertOpen}
+              confirmation={confirmationEdit}
+              title="Salvar"
+              description="Tem certeza que deseja alterar os dados do parceiro?"
+            />
+          )}
         </BoxForm>
       </Box>
     </Box>
